@@ -98,69 +98,130 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Hero Banner Slider */}
-      <section className="relative bg-gradient-to-r from-orange-500 to-red-600 text-white">
-        <div className="relative h-80 overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-between px-4">
+      {/* Modern Hero Section */}
+      <section className="relative bg-gradient-to-br from-slate-900 via-copper/90 to-slate-800 text-white overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+          <div className="absolute top-20 left-20 w-32 h-32 border border-white/10 rotate-45"></div>
+          <div className="absolute bottom-20 right-20 w-24 h-24 border border-white/10 rotate-12"></div>
+          <div className="absolute top-1/2 right-32 w-16 h-16 border border-white/10 rotate-45"></div>
+        </div>
+        
+        <div className="relative h-[600px] flex items-center">
+          {/* Navigation Arrows */}
+          <div className="absolute inset-y-0 left-4 flex items-center z-20">
             <Button
               variant="ghost"
               size="sm"
               onClick={prevSlide}
-              className="text-white hover:bg-white/20 z-10"
+              className="text-white hover:bg-white/20 rounded-full w-12 h-12 p-0"
             >
               <ChevronLeft className="h-6 w-6" />
             </Button>
+          </div>
+          <div className="absolute inset-y-0 right-4 flex items-center z-20">
             <Button
               variant="ghost"
               size="sm"
               onClick={nextSlide}
-              className="text-white hover:bg-white/20 z-10"
+              className="text-white hover:bg-white/20 rounded-full w-12 h-12 p-0"
             >
               <ChevronRight className="h-6 w-6" />
             </Button>
           </div>
           
-          <div className="flex h-full">
-            <div className="w-full flex items-center">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div>
-                  <div className="inline-block bg-orange-600 text-white px-4 py-2 rounded-lg mb-4">
-                    <span className="font-bold">Grab the Deal</span>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Content Side */}
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <div className="inline-flex items-center bg-copper/20 backdrop-blur-sm border border-copper/30 text-copper-100 px-4 py-2 rounded-full">
+                    <span className="font-semibold">✨ Premium Quality</span>
                   </div>
-                  <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                    {slides[currentSlide].title}
+                  
+                  <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+                    <span className="bg-gradient-to-r from-white to-copper-200 bg-clip-text text-transparent">
+                      {slides[currentSlide].title}
+                    </span>
                   </h1>
-                  <p className="text-2xl mb-6">
+                  
+                  <p className="text-xl lg:text-2xl text-copper-100 font-medium">
                     {slides[currentSlide].subtitle}
                   </p>
-                  <p className="text-lg mb-6">
+                  
+                  <p className="text-lg text-gray-300 max-w-lg">
                     {slides[currentSlide].description}
                   </p>
-                  <div className="flex gap-4">
-                    <Button className="bg-green-600 hover:bg-green-700 text-white">
-                      🚚 Free Delivery on above ₹500*
-                    </Button>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-4">
+                    <Link href="/products">
+                      <Button size="lg" className="bg-copper hover:bg-copper/90 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all">
+                        Shop Now <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                    <Link href="/services">
+                      <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 rounded-full font-semibold">
+                        Our Services
+                      </Button>
+                    </Link>
+                  </div>
+                  
+                  <div className="flex items-center gap-6 text-sm">
+                    <div className="flex items-center gap-2 text-green-300">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span>Free Delivery ₹500+</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-blue-300">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                      <span>24/7 Support</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-yellow-300">
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                      <span>1 Year Warranty</span>
+                    </div>
                   </div>
                 </div>
-                <div className="hidden lg:block">
+              </div>
+              
+              {/* Image Side */}
+              <div className="relative">
+                <div className="relative z-10">
                   <img 
                     src={slides[currentSlide].image}
                     alt={slides[currentSlide].alt}
-                    className="w-full h-auto rounded-lg transition-all duration-500"
+                    className="w-full h-96 object-cover rounded-2xl shadow-2xl transition-all duration-700 transform hover:scale-105"
                   />
+                  {/* Floating Stats */}
+                  <div className="absolute -top-4 -right-4 bg-white/95 backdrop-blur-sm text-slate-900 p-4 rounded-xl shadow-lg">
+                    <div className="text-2xl font-bold text-copper">10K+</div>
+                    <div className="text-sm">Happy Customers</div>
+                  </div>
+                  <div className="absolute -bottom-4 -left-4 bg-white/95 backdrop-blur-sm text-slate-900 p-4 rounded-xl shadow-lg">
+                    <div className="text-2xl font-bold text-copper">24/7</div>
+                    <div className="text-sm">Support</div>
+                  </div>
                 </div>
+                
+                {/* Decorative Elements */}
+                <div className="absolute top-8 right-8 w-20 h-20 bg-copper/20 rounded-full blur-xl"></div>
+                <div className="absolute bottom-8 left-8 w-16 h-16 bg-blue-500/20 rounded-full blur-xl"></div>
               </div>
             </div>
           </div>
           
-          {/* Slide indicators */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {/* Modern Slide Indicators */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentSlide ? 'bg-white' : 'bg-white/50'
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentSlide 
+                    ? 'w-8 bg-copper' 
+                    : 'w-2 bg-white/40 hover:bg-white/60'
                 }`}
               />
             ))}

@@ -17,6 +17,9 @@ import Contact from "@/pages/Contact";
 import Login from "@/pages/Login";
 import Profile from "@/pages/Profile";
 import Admin from "@/pages/Admin";
+import Brands from "@/pages/Brands";
+import Categories from "@/pages/Categories";
+import Wholesale from "@/pages/Wholesale";
 import NotFound from "@/pages/not-found";
 
 // Font Awesome CSS
@@ -27,6 +30,9 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/products" component={Products} />
+      <Route path="/categories" component={Categories} />
+      <Route path="/brands" component={Brands} />
+      <Route path="/wholesale" component={Wholesale} />
       <Route path="/services" component={Services} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, User, ShoppingCart, Menu } from "lucide-react";
+import { Search, User, ShoppingCart, Menu, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,6 +15,8 @@ export default function Header() {
   const { getTotalItems, setIsOpen } = useCart();
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isProductsMenuOpen, setIsProductsMenuOpen] = useState(false);
+  const [isBrandsMenuOpen, setIsBrandsMenuOpen] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,12 +67,74 @@ export default function Header() {
           </div>
 
           {/* Navigation */}
-          <nav className="hidden lg:flex space-x-8">
-            <Link href="/products" className={`text-deep-gray hover:text-copper transition-colors font-medium ${location === '/products' ? 'text-copper' : ''}`}>
-              {t('nav.products')}
+          <nav className="hidden lg:flex space-x-6">
+            {/* Products Mega Menu */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsProductsMenuOpen(true)}
+              onMouseLeave={() => setIsProductsMenuOpen(false)}
+            >
+              <button className={`flex items-center text-deep-gray hover:text-copper transition-colors font-medium ${location === '/products' ? 'text-copper' : ''}`}>
+                Products <ChevronDown className="ml-1 h-4 w-4" />
+              </button>
+              {isProductsMenuOpen && (
+                <div className="absolute top-full left-0 w-96 bg-white shadow-xl border border-gray-200 rounded-lg p-6 z-50">
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-semibold text-copper mb-3">By Category</h3>
+                      <ul className="space-y-2">
+                        <li><Link href="/categories" className="text-gray-600 hover:text-copper">All Categories</Link></li>
+                        <li><Link href="/products?category=1" className="text-gray-600 hover:text-copper">Switches & Accessories</Link></li>
+                        <li><Link href="/products?category=2" className="text-gray-600 hover:text-copper">Wires & Cables</Link></li>
+                        <li><Link href="/products?category=3" className="text-gray-600 hover:text-copper">Lighting Solutions</Link></li>
+                        <li><Link href="/products?category=4" className="text-gray-600 hover:text-copper">Fans & Appliances</Link></li>
+                        <li><Link href="/products?category=5" className="text-gray-600 hover:text-copper">Protection & Control</Link></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-copper mb-3">Popular Products</h3>
+                      <ul className="space-y-2">
+                        <li><Link href="/products?search=modular%20switch" className="text-gray-600 hover:text-copper">Modular Switches</Link></li>
+                        <li><Link href="/products?search=LED" className="text-gray-600 hover:text-copper">LED Lights</Link></li>
+                        <li><Link href="/products?search=cable" className="text-gray-600 hover:text-copper">Electrical Cables</Link></li>
+                        <li><Link href="/products?search=MCB" className="text-gray-600 hover:text-copper">Circuit Breakers</Link></li>
+                        <li><Link href="/products?search=fan" className="text-gray-600 hover:text-copper">Ceiling Fans</Link></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Brands Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsBrandsMenuOpen(true)}
+              onMouseLeave={() => setIsBrandsMenuOpen(false)}
+            >
+              <button className={`flex items-center text-deep-gray hover:text-copper transition-colors font-medium ${location === '/brands' ? 'text-copper' : ''}`}>
+                Brands <ChevronDown className="ml-1 h-4 w-4" />
+              </button>
+              {isBrandsMenuOpen && (
+                <div className="absolute top-full left-0 w-64 bg-white shadow-xl border border-gray-200 rounded-lg p-4 z-50">
+                  <ul className="space-y-2">
+                    <li><Link href="/brands" className="text-gray-600 hover:text-copper font-medium">All Brands</Link></li>
+                    <li><Link href="/products?brand=ANCHOR" className="text-gray-600 hover:text-copper">Anchor</Link></li>
+                    <li><Link href="/products?brand=CROMPTON" className="text-gray-600 hover:text-copper">Crompton</Link></li>
+                    <li><Link href="/products?brand=HAVELLS" className="text-gray-600 hover:text-copper">Havells</Link></li>
+                    <li><Link href="/products?brand=POLYCAB" className="text-gray-600 hover:text-copper">Polycab</Link></li>
+                    <li><Link href="/products?brand=LEGRAND" className="text-gray-600 hover:text-copper">Legrand</Link></li>
+                    <li><Link href="/products?brand=V-GUARD" className="text-gray-600 hover:text-copper">V-Guard</Link></li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <Link href="/wholesale" className={`text-deep-gray hover:text-copper transition-colors font-medium ${location === '/wholesale' ? 'text-copper' : ''}`}>
+              Wholesale
             </Link>
             <Link href="/services" className={`text-deep-gray hover:text-copper transition-colors font-medium ${location === '/services' ? 'text-copper' : ''}`}>
-              {t('nav.services')}
+              Services
             </Link>
             <Link href="/about" className={`text-deep-gray hover:text-copper transition-colors font-medium ${location === '/about' ? 'text-copper' : ''}`}>
               {t('nav.about')}

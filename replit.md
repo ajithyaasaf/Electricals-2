@@ -23,9 +23,8 @@ Preferred communication style: Simple, everyday language.
 - **Runtime**: Node.js with Express.js framework
 - **Language**: TypeScript for type safety
 - **API Pattern**: RESTful API with JSON responses
-- **Database ORM**: Drizzle ORM for type-safe database operations
-- **Database**: PostgreSQL (configured via Drizzle, using Neon Database)
-- **Authentication**: Firebase Authentication with Google Sign-in
+- **Database**: Cloud Firestore (NoSQL document database)
+- **Authentication**: Firebase Authentication with Google OAuth and Email/Password
 
 ### Database Schema
 The application uses a PostgreSQL database with the following main entities:
@@ -181,3 +180,14 @@ The application follows a modern full-stack architecture with emphasis on type s
 - **Typography Utilities**: Added text-balance, text-pretty, and enhanced readability classes
 - **Responsive Typography**: Fluid type scaling with clamp() functions for optimal readability
 - **Professional Appearance**: Better font rendering with font-feature-settings for improved legibility
+
+### January 11, 2025 - Email/Password Authentication & Firestore Migration
+- **Email/Password Authentication**: Implemented complete signup and login system with Firebase Auth
+- **Firestore Database**: Migrated all data storage from PostgreSQL to Firestore for better scalability
+- **User Profile Management**: Created comprehensive user profiles with personal information and role-based access
+- **Password Security**: Added password strength validation, reset functionality, and email verification
+- **Enhanced Login UI**: Designed modern login/signup interface with tabs, password visibility toggle, and error handling
+- **Firestore Services**: Built complete data services for categories, products, services, orders, and bookings
+- **Sample Data Initialization**: Created automated sample data population for testing and development
+- **Authentication Context**: Enhanced auth context to include user profiles and Firestore integration
+- **Google OAuth**: Maintained Google sign-in functionality alongside email/password authentication

@@ -29,7 +29,28 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey.join("/") as string, {
+    const [url, ...params] = queryKey;
+    let fetchUrl = url as string;
+    
+    // Build query string if there are parameters
+    if (params.length > 0) {
+      const queryParams = new URLSearchParams();
+      
+      // Handle different parameter patterns
+      if (params.length === 3) {
+        // Products query: [search, category, limit]
+        const [search, category, limit] = params;
+        if (search) queryParams.append('search', search as string);
+        if (category && category !== 'all') queryParams.append('categoryId', category as string);
+        if (limit) queryParams.append('limit', limit.toString());
+      }
+      
+      if (queryParams.toString()) {
+        fetchUrl += '?' + queryParams.toString();
+      }
+    }
+
+    const res = await fetch(fetchUrl, {
       credentials: "include",
     });
 

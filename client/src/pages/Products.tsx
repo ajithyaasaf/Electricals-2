@@ -12,8 +12,8 @@ import { Search, Filter } from "lucide-react";
 
 export default function Products() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [priceRange, setPriceRange] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [priceRange, setPriceRange] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("featured");
 
   const { data: categories } = useQuery<{ success: boolean; data: Category[] }>({
@@ -21,15 +21,11 @@ export default function Products() {
   });
 
   const { data: products, isLoading } = useQuery<{ success: boolean; data: Product[] }>({
-    queryKey: ["/api/products", { 
-      search: searchQuery, 
-      categoryId: selectedCategory ? parseInt(selectedCategory) : undefined,
-      limit: 50 
-    }],
+    queryKey: ["/api/products", searchQuery, selectedCategory, 50],
   });
 
   const filteredProducts = products?.data?.filter(product => {
-    const matchesPrice = !priceRange || (() => {
+    const matchesPrice = priceRange === "all" || (() => {
       const price = parseFloat(product.price);
       switch (priceRange) {
         case "under-500": return price < 500;
@@ -105,7 +101,7 @@ export default function Products() {
                       <SelectValue placeholder="All Categories" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Categories</SelectItem>
+                      <SelectItem value="all">All Categories</SelectItem>
                       {categories?.data?.map((category) => (
                         <SelectItem key={category.id} value={category.id.toString()}>
                           {category.name}
@@ -125,7 +121,7 @@ export default function Products() {
                       <SelectValue placeholder="All Prices" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Prices</SelectItem>
+                      <SelectItem value="all">All Prices</SelectItem>
                       <SelectItem value="under-500">Under ₹500</SelectItem>
                       <SelectItem value="500-1000">₹500 - ₹1,000</SelectItem>
                       <SelectItem value="1000-5000">₹1,000 - ₹5,000</SelectItem>

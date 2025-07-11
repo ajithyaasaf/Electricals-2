@@ -31,12 +31,37 @@ export default function Home() {
   const bestDeals = products?.data?.slice(0, 7) || [];
   const topCategories = categories?.data?.slice(0, 10) || [];
 
+  // Define different slide content
+  const slides = [
+    {
+      title: "Up to 70% Off*",
+      subtitle: "On Electrical Products",
+      description: "Claim GST Benefits on Business Purchase",
+      image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop",
+      alt: "Electrical Products"
+    },
+    {
+      title: "Premium Quality",
+      subtitle: "MCCBs & Circuit Breakers",
+      description: "Professional grade electrical safety equipment",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
+      alt: "Circuit Breakers"
+    },
+    {
+      title: "Smart Solutions",
+      subtitle: "IoT & Smart Switches",
+      description: "Modern electrical automation for homes & offices",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop",
+      alt: "Smart Switches"
+    }
+  ];
+
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % 3);
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + 3) % 3);
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
   return (
@@ -98,13 +123,13 @@ export default function Home() {
                     <span className="font-bold">Grab the Deal</span>
                   </div>
                   <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                    Up to 70% Off*
+                    {slides[currentSlide].title}
                   </h1>
                   <p className="text-2xl mb-6">
-                    On Electrical Products
+                    {slides[currentSlide].subtitle}
                   </p>
                   <p className="text-lg mb-6">
-                    Claim GST Benefits on <em>Business Purchase</em>
+                    {slides[currentSlide].description}
                   </p>
                   <div className="flex gap-4">
                     <Button className="bg-green-600 hover:bg-green-700 text-white">
@@ -114,13 +139,26 @@ export default function Home() {
                 </div>
                 <div className="hidden lg:block">
                   <img 
-                    src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop"
-                    alt="Electrical Products"
-                    className="w-full h-auto rounded-lg"
+                    src={slides[currentSlide].image}
+                    alt={slides[currentSlide].alt}
+                    className="w-full h-auto rounded-lg transition-all duration-500"
                   />
                 </div>
               </div>
             </div>
+          </div>
+          
+          {/* Slide indicators */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  index === currentSlide ? 'bg-white' : 'bg-white/50'
+                }`}
+              />
+            ))}
           </div>
         </div>
       </section>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { signInWithGoogle, signInWithEmailPassword, signUpWithEmailPassword, resetPassword } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Chrome, Loader2, Mail, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +17,15 @@ export default function Login() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
+  const { user, loading } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user && !loading) {
+      setLocation("/");
+    }
+  }, [user, loading, setLocation]);
 
   // Login form state
   const [loginData, setLoginData] = useState({
@@ -43,6 +53,7 @@ export default function Login() {
         title: "Success",
         description: "You have been signed in successfully!",
       });
+      // Redirect will happen automatically via useEffect
     } catch (error) {
       console.error("Sign in error:", error);
       toast({
@@ -64,6 +75,7 @@ export default function Login() {
         title: "Success",
         description: "You have been signed in successfully!",
       });
+      // Redirect will happen automatically via useEffect
     } catch (error: any) {
       console.error("Login error:", error);
       let errorMessage = "Failed to sign in. Please try again.";
@@ -182,6 +194,15 @@ export default function Login() {
       setIsLoading(false);
     }
   };
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

@@ -1,22 +1,106 @@
 import { useAuth } from "@/contexts/AuthContext";
-import { useQuery } from "@tanstack/react-query";
-import { Order, Booking } from "@shared/schema";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { logOut, updateUserProfile } from "@/lib/auth";
+import { useToast } from "@/hooks/use-toast";
+import { User, Mail, Phone, MapPin, Edit, ShoppingBag, Settings, Save, Calendar, Package } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 
 export default function Profile() {
-  const { user } = useAuth();
-
-  const { data: orders } = useQuery<{ success: boolean; data: Order[] }>({
-    queryKey: ["/api/orders", { userId: 1 }], // This would use actual user ID
+  const { user, userProfile, loading } = useAuth();
+  const { toast } = useToast();
+  const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      pincode: "",
+      country: "India"
+    }
   });
 
-  const { data: bookings } = useQuery<{ success: boolean; data: Booking[] }>({
-    queryKey: ["/api/bookings", { userId: 1 }], // This would use actual user ID
-  });
+  // Update form data when userProfile changes
+  useEffect(() => {
+    if (userProfile) {
+      setFormData({
+        firstName: userProfile.firstName || "",
+        lastName: userProfile.lastName || "",
+        phone: userProfile.phone || "",
+        address: {
+          street: userProfile.address?.street || "",
+          city: userProfile.address?.city || "",
+          state: userProfile.address?.state || "",
+          pincode: userProfile.address?.pincode || "",
+          country: userProfile.address?.country || "India"
+        }
+      });
+    }
+  }, [userProfile]);
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      toast({
+        title: "Logged out",
+        description: "You have been logged out successfully.",
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUpdateProfile = async () => {
+    if (!user) return;
+
+    setIsUpdating(true);
+    try {
+      await updateUserProfile(user.uid, {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        displayName: `${formData.firstName} ${formData.lastName}`,
+        phone: formData.phone,
+        address: formData.address,
+      });
+      
+      toast({
+        title: "Profile updated",
+        description: "Your profile has been updated successfully.",
+      });
+      
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Update error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-off-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-copper"></div>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -24,7 +108,7 @@ export default function Profile() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card>
             <CardContent className="p-8 text-center">
-              <h1 className="font-montserrat font-bold text-2xl text-deep-gray mb-4">
+              <h1 className="font-heading font-bold text-2xl text-deep-gray mb-4">
                 Please Log In
               </h1>
               <p className="text-gray-600 mb-6">
@@ -42,165 +126,256 @@ export default function Profile() {
     );
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'confirmed': return 'bg-blue-100 text-blue-800';
-      case 'in-progress': return 'bg-orange-100 text-orange-800';
-      case 'completed': return 'bg-green-100 text-green-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   return (
     <div className="min-h-screen bg-off-white py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Profile Header */}
-        <Card className="mb-8">
-          <CardHeader>
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-copper rounded-full flex items-center justify-center">
-                <i className="fas fa-user text-white text-2xl"></i>
-              </div>
-              <div>
-                <h1 className="font-montserrat font-bold text-2xl text-deep-gray">
-                  {user.displayName || user.email}
-                </h1>
-                <p className="text-gray-600">{user.email}</p>
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
+        <div className="mb-8">
+          <h1 className="font-heading font-bold text-3xl text-deep-gray mb-2">
+            My Profile
+          </h1>
+          <p className="text-gray-600">
+            Manage your account settings and preferences
+          </p>
+        </div>
 
-        {/* Tabs */}
-        <Tabs defaultValue="orders" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
+        <Tabs defaultValue="profile" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="orders">Orders</TabsTrigger>
-            <TabsTrigger value="bookings">Service Bookings</TabsTrigger>
+            <TabsTrigger value="bookings">Bookings</TabsTrigger>
           </TabsList>
 
-          {/* Orders Tab */}
-          <TabsContent value="orders">
+          <TabsContent value="profile" className="space-y-6">
             <Card>
-              <CardHeader>
-                <CardTitle className="font-montserrat font-bold text-xl text-deep-gray">
-                  Your Orders
-                </CardTitle>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Personal Information
+                  </CardTitle>
+                  <CardDescription>
+                    Update your personal details and contact information
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsEditing(!isEditing)}
+                  className="flex items-center gap-2"
+                >
+                  <Edit className="w-4 h-4" />
+                  {isEditing ? "Cancel" : "Edit"}
+                </Button>
               </CardHeader>
-              <CardContent>
-                {orders?.data?.length === 0 ? (
-                  <div className="text-center py-8">
-                    <i className="fas fa-shopping-cart text-gray-400 text-4xl mb-4"></i>
-                    <p className="text-gray-500">No orders yet</p>
-                    <Link href="/products">
-                      <Button className="mt-4 bg-copper hover:bg-copper-dark text-white">
-                        Start Shopping
-                      </Button>
-                    </Link>
+              <CardContent className="space-y-6">
+                {!isEditing ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-gray-500" />
+                        <div>
+                          <p className="text-sm text-gray-500">Email</p>
+                          <p className="font-medium">{user.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-gray-500" />
+                        <div>
+                          <p className="text-sm text-gray-500">Name</p>
+                          <p className="font-medium">
+                            {userProfile?.displayName || user.displayName || "Not set"}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Phone className="w-4 h-4 text-gray-500" />
+                        <div>
+                          <p className="text-sm text-gray-500">Phone</p>
+                          <p className="font-medium">{userProfile?.phone || "Not set"}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-2">
+                        <MapPin className="w-4 h-4 text-gray-500 mt-1" />
+                        <div>
+                          <p className="text-sm text-gray-500">Address</p>
+                          <div className="font-medium">
+                            {userProfile?.address?.street && (
+                              <p>{userProfile.address.street}</p>
+                            )}
+                            {userProfile?.address?.city && (
+                              <p>{userProfile.address.city}, {userProfile.address.state} {userProfile.address.pincode}</p>
+                            )}
+                            {userProfile?.address?.country && (
+                              <p>{userProfile.address.country}</p>
+                            )}
+                            {!userProfile?.address?.street && "Not set"}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Settings className="w-4 h-4 text-gray-500" />
+                        <div>
+                          <p className="text-sm text-gray-500">Role</p>
+                          <p className="font-medium capitalize">{userProfile?.role || "Customer"}</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {orders?.data?.map((order) => (
-                      <Card key={order.id} className="border-l-4 border-l-copper">
-                        <CardContent className="p-4">
-                          <div className="flex justify-between items-start mb-2">
-                            <div>
-                              <h3 className="font-semibold text-deep-gray">
-                                Order #{order.orderNumber}
-                              </h3>
-                              <p className="text-sm text-gray-500">
-                                {new Date(order.createdAt!).toLocaleDateString()}
-                              </p>
-                            </div>
-                            <Badge className={getStatusColor(order.status)}>
-                              {order.status.toUpperCase()}
-                            </Badge>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <p className="text-sm text-gray-600">
-                                Payment: {order.paymentMethod}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                Total: ₹{parseFloat(order.totalAmount).toFixed(2)}
-                              </p>
-                            </div>
-                            <Button variant="outline" size="sm">
-                              View Details
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="firstName">First Name</Label>
+                        <Input
+                          id="firstName"
+                          value={formData.firstName}
+                          onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                          placeholder="Enter your first name"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="lastName">Last Name</Label>
+                        <Input
+                          id="lastName"
+                          value={formData.lastName}
+                          onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                          placeholder="Enter your last name"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        placeholder="Enter your phone number"
+                      />
+                    </div>
+
+                    <div className="space-y-4">
+                      <Label>Address</Label>
+                      <div className="grid grid-cols-1 gap-4">
+                        <Input
+                          value={formData.address.street}
+                          onChange={(e) => setFormData({...formData, address: {...formData.address, street: e.target.value}})}
+                          placeholder="Street address"
+                        />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <Input
+                            value={formData.address.city}
+                            onChange={(e) => setFormData({...formData, address: {...formData.address, city: e.target.value}})}
+                            placeholder="City"
+                          />
+                          <Input
+                            value={formData.address.state}
+                            onChange={(e) => setFormData({...formData, address: {...formData.address, state: e.target.value}})}
+                            placeholder="State"
+                          />
+                          <Input
+                            value={formData.address.pincode}
+                            onChange={(e) => setFormData({...formData, address: {...formData.address, pincode: e.target.value}})}
+                            placeholder="Pincode"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleUpdateProfile}
+                        disabled={isUpdating}
+                        className="bg-copper hover:bg-copper-dark"
+                      >
+                        {isUpdating ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Updating...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="w-4 h-4 mr-2" />
+                            Save Changes
+                          </>
+                        )}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setIsEditing(false)}
+                        disabled={isUpdating}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   </div>
                 )}
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Bookings Tab */}
-          <TabsContent value="bookings">
+          <TabsContent value="orders" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="font-montserrat font-bold text-xl text-deep-gray">
-                  Your Service Bookings
+                <CardTitle className="flex items-center gap-2">
+                  <Package className="w-5 h-5" />
+                  My Orders
                 </CardTitle>
+                <CardDescription>
+                  Track your order history and status
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                {bookings?.data?.length === 0 ? (
-                  <div className="text-center py-8">
-                    <i className="fas fa-calendar text-gray-400 text-4xl mb-4"></i>
-                    <p className="text-gray-500">No service bookings yet</p>
-                    <Link href="/services">
-                      <Button className="mt-4 bg-copper hover:bg-copper-dark text-white">
-                        Book a Service
-                      </Button>
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {bookings?.data?.map((booking) => (
-                      <Card key={booking.id} className="border-l-4 border-l-accent-blue">
-                        <CardContent className="p-4">
-                          <div className="flex justify-between items-start mb-2">
-                            <div>
-                              <h3 className="font-semibold text-deep-gray">
-                                Booking #{booking.bookingNumber}
-                              </h3>
-                              <p className="text-sm text-gray-500">
-                                {new Date(booking.createdAt!).toLocaleDateString()}
-                              </p>
-                            </div>
-                            <Badge className={getStatusColor(booking.status)}>
-                              {booking.status.toUpperCase()}
-                            </Badge>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <p className="text-sm text-gray-600">
-                                Date: {booking.preferredDate ? new Date(booking.preferredDate).toLocaleDateString() : 'TBD'}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                Time: {booking.preferredTime || 'TBD'}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                Total: ₹{parseFloat(booking.totalAmount).toFixed(2)}
-                              </p>
-                            </div>
-                            <Button variant="outline" size="sm">
-                              View Details
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                )}
+                <div className="text-center py-8">
+                  <ShoppingBag className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600 mb-4">No orders yet</p>
+                  <Link href="/products">
+                    <Button className="bg-copper hover:bg-copper-dark">
+                      Start Shopping
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="bookings" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  My Bookings
+                </CardTitle>
+                <CardDescription>
+                  View your service bookings and appointments
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600 mb-4">No bookings yet</p>
+                  <Link href="/services">
+                    <Button className="bg-copper hover:bg-copper-dark">
+                      Book a Service
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
+
+        <div className="mt-8 text-center">
+          <Button
+            variant="outline"
+            onClick={handleLogout}
+            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            Logout
+          </Button>
+        </div>
       </div>
     </div>
   );

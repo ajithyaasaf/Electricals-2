@@ -1,19 +1,23 @@
 import { Link, useLocation } from "wouter";
-import { Search, User, ShoppingCart, Menu, ChevronDown } from "lucide-react";
+import { Search, User, ShoppingCart, Menu, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { logOut } from "@/lib/auth";
 import VoiceSearch from "@/components/VoiceSearch";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Header() {
   const [location] = useLocation();
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const { getTotalItems, setIsOpen } = useCart();
   const { t } = useLanguage();
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [isProductsMenuOpen, setIsProductsMenuOpen] = useState(false);
   const [isBrandsMenuOpen, setIsBrandsMenuOpen] = useState(false);
@@ -23,6 +27,23 @@ export default function Header() {
     if (searchQuery.trim()) {
       // Navigate to products page with search query
       window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      toast({
+        title: "Logged out",
+        description: "You have been logged out successfully.",
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -147,11 +168,40 @@ export default function Header() {
           {/* User Actions */}
           <div className="flex items-center space-x-4">
             <LanguageToggle />
-            <Link href={user ? "/profile" : "/login"}>
-              <Button variant="ghost" size="sm" className="text-deep-gray hover:text-copper">
-                <User className="w-5 h-5" />
-              </Button>
-            </Link>
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="text-deep-gray hover:text-copper">
+                    <User className="w-5 h-5 mr-2" />
+                    <span className="hidden md:inline">
+                      {userProfile?.displayName || user.displayName || user.email}
+                    </span>
+                    <ChevronDown className="w-4 h-4 ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="w-full">
+                      <User className="w-4 h-4 mr-2" />
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/login">
+                <Button variant="ghost" size="sm" className="text-deep-gray hover:text-copper">
+                  <User className="w-5 h-5 mr-2" />
+                  <span className="hidden md:inline">Login</span>
+                </Button>
+              </Link>
+            )}
             <Button
               variant="ghost"
               size="sm"

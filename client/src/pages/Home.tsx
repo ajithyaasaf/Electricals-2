@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { ShoppingCart, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -30,6 +30,11 @@ export default function Home() {
   const featuredProducts = products?.data?.slice(0, 10) || [];
   const bestDeals = products?.data?.slice(0, 7) || [];
   const topCategories = categories?.data?.slice(0, 10) || [];
+
+  // Generate fixed discount percentages that won't change on re-render
+  const categoryDiscounts = useMemo(() => {
+    return topCategories.map(() => Math.floor(Math.random() * 50) + 20);
+  }, [topCategories.length]);
 
   // Define different slide content
   const slides = [
@@ -84,7 +89,7 @@ export default function Home() {
                     {category.name}
                   </h3>
                   <Badge variant="secondary" className="text-xs bg-red-100 text-red-700 mt-1">
-                    {Math.floor(Math.random() * 50) + 20}% OFF*
+                    {categoryDiscounts[index]}% OFF*
                   </Badge>
                 </div>
               </Link>

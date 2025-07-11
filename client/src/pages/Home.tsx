@@ -85,7 +85,7 @@ export default function Home() {
                       className="w-12 h-12 object-cover rounded"
                     />
                   </div>
-                  <h3 className="text-xs font-medium text-gray-800 group-hover:text-copper transition-colors">
+                  <h3 className="text-xs font-medium text-gray-800 group-hover:text-copper transition-colors font-inter">
                     {category.name}
                   </h3>
                   <Badge variant="secondary" className="text-xs bg-red-100 text-red-700 mt-1">
@@ -140,17 +140,17 @@ export default function Home() {
                     <span className="font-semibold">✨ Premium Quality</span>
                   </div>
                   
-                  <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+                  <h1 className="text-5xl lg:text-6xl font-bold leading-tight font-heading text-balance">
                     <span className="bg-gradient-to-r from-white to-copper-200 bg-clip-text text-transparent">
                       {slides[currentSlide].title}
                     </span>
                   </h1>
                   
-                  <p className="text-xl lg:text-2xl text-copper-100 font-medium">
+                  <p className="text-xl lg:text-2xl text-copper-100 font-medium font-poppins text-balance">
                     {slides[currentSlide].subtitle}
                   </p>
                   
-                  <p className="text-lg text-gray-300 max-w-lg">
+                  <p className="text-lg text-gray-300 max-w-lg font-inter text-readable">
                     {slides[currentSlide].description}
                   </p>
                 </div>
@@ -158,18 +158,18 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="flex flex-wrap gap-4">
                     <Link href="/products">
-                      <Button size="lg" className="bg-copper hover:bg-copper/90 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all">
+                      <Button size="lg" className="bg-copper hover:bg-copper/90 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all font-poppins">
                         Shop Now <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                     </Link>
                     <Link href="/services">
-                      <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 rounded-full font-semibold">
+                      <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 rounded-full font-semibold font-poppins">
                         Our Services
                       </Button>
                     </Link>
                   </div>
                   
-                  <div className="flex items-center gap-6 text-sm">
+                  <div className="flex items-center gap-6 text-sm font-inter">
                     <div className="flex items-center gap-2 text-green-300">
                       <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                       <span>Free Delivery ₹500+</span>
@@ -196,12 +196,12 @@ export default function Home() {
                   />
                   {/* Floating Stats */}
                   <div className="absolute -top-4 -right-4 bg-white/95 backdrop-blur-sm text-slate-900 p-4 rounded-xl shadow-lg">
-                    <div className="text-2xl font-bold text-copper">10K+</div>
-                    <div className="text-sm">Happy Customers</div>
+                    <div className="text-2xl font-bold text-copper font-poppins">10K+</div>
+                    <div className="text-sm font-inter">Happy Customers</div>
                   </div>
                   <div className="absolute -bottom-4 -left-4 bg-white/95 backdrop-blur-sm text-slate-900 p-4 rounded-xl shadow-lg">
-                    <div className="text-2xl font-bold text-copper">24/7</div>
-                    <div className="text-sm">Support</div>
+                    <div className="text-2xl font-bold text-copper font-poppins">24/7</div>
+                    <div className="text-sm font-inter">Support</div>
                   </div>
                 </div>
                 
@@ -232,7 +232,7 @@ export default function Home() {
       {/* Best Deals Section */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 font-heading">
             Best Deals
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6">
@@ -258,11 +258,11 @@ export default function Home() {
                         e.currentTarget.style.display = 'none';
                       }}
                     />
-                    <span className="text-xs font-medium text-gray-600">
+                    <span className="text-xs font-medium text-gray-600 font-inter">
                       {product.brand.toUpperCase()}
                     </span>
                   </div>
-                  <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors">
+                  <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors font-inter text-readable">
                     {product.name}
                   </h3>
                 </CardContent>
@@ -275,7 +275,7 @@ export default function Home() {
       {/* Shop by Categories */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 font-heading">
             Shop by Categories
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
@@ -288,7 +288,7 @@ export default function Home() {
                       alt={category.name}
                       className="w-full h-24 object-cover rounded-lg mb-3"
                     />
-                    <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors">
+                    <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors font-inter text-readable">
                       {category.name}
                     </h3>
                   </CardContent>
@@ -302,7 +302,7 @@ export default function Home() {
       {/* Professional Services - Exclusive Deals */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 font-heading">
             Professional Services - Exclusive Deals
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -320,21 +320,21 @@ export default function Home() {
                     />
                   </div>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-medium text-orange-600">
+                    <span className="text-xs font-medium text-orange-600 font-inter">
                       COPPERBEAR
                     </span>
                   </div>
-                  <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors mb-2">
+                  <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors mb-2 font-inter text-readable">
                     {service.name}
                   </h3>
-                  <p className="text-xs text-gray-600 mb-3">
+                  <p className="text-xs text-gray-600 mb-3 font-inter">
                     {service.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-gray-900">
+                    <span className="text-lg font-bold text-gray-900 font-poppins">
                       ₹{service.price}
                     </span>
-                    <Button size="sm" className="bg-copper hover:bg-copper-dark">
+                    <Button size="sm" className="bg-copper hover:bg-copper-dark font-poppins">
                       Book Now
                     </Button>
                   </div>
@@ -348,21 +348,21 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-16 bg-copper text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-6">
+          <h2 className="text-3xl font-bold mb-6 font-heading text-balance">
             Ready to Get Started?
           </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-xl mb-8 max-w-2xl mx-auto font-inter text-readable">
             Explore our complete range of electrical products and professional services
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/products">
-              <Button size="lg" className="bg-white text-copper hover:bg-gray-100">
+              <Button size="lg" className="bg-white text-copper hover:bg-gray-100 font-poppins">
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Shop Products
               </Button>
             </Link>
             <Link href="/services">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-copper">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-copper font-poppins">
                 <ArrowRight className="mr-2 h-5 w-5" />
                 View Services
               </Button>

@@ -36,7 +36,7 @@ export default function Header() {
               <div className="w-10 h-10 bg-copper rounded-lg flex items-center justify-center mr-3">
                 <i className="fas fa-bolt text-white text-lg"></i>
               </div>
-              <span className="font-montserrat font-bold text-xl text-deep-gray">CopperBear</span>
+              <span className="font-heading font-bold text-xl text-deep-gray">CopperBear</span>
             </Link>
           </div>
 

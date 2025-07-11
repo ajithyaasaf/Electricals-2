@@ -1,8 +1,8 @@
 /* Import Font Awesome */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+/* Import Google Fonts - Premium Typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -78,11 +78,37 @@
   
   body {
     @apply bg-background text-foreground;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    letter-spacing: -0.011em;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+  
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+  }
+  
+  h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+  }
+  
+  /* Technical/Code elements */
+  code, pre {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
   }
 }
 
@@ -201,12 +227,58 @@
   }
 
   /* Font families */
-  .font-montserrat {
-    font-family: 'Montserrat', sans-serif;
+  .font-poppins {
+    font-family: 'Poppins', sans-serif;
   }
   
-  .font-roboto {
-    font-family: 'Roboto', sans-serif;
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .font-mono {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+  }
+  
+  /* Typography utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  
+  /* Enhanced readability */
+  .text-readable {
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+  }
+  
+  .text-heading {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+  
+  .text-subheading {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+  
+  .text-body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+  }
+  
+  .text-caption {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    letter-spacing: -0.006em;
   }
 
   /* Custom gradients */

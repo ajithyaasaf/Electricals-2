@@ -74,8 +74,11 @@ export default {
         },
       },
       fontFamily: {
-        'montserrat': ['Montserrat', 'sans-serif'],
-        'roboto': ['Roboto', 'sans-serif'],
+        'poppins': ['Poppins', 'sans-serif'],
+        'inter': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        'mono': ['JetBrains Mono', 'Consolas', 'monospace'],
+        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        'heading': ['Poppins', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {

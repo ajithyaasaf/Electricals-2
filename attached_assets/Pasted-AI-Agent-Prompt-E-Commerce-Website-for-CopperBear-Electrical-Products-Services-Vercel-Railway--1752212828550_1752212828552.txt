@@ -1,0 +1,213 @@
+AI Agent Prompt: E-Commerce Website for CopperBear Electrical Products & Services (Vercel & Railway)
+Objective
+Develop a robust, scalable, and mobile-optimized e-commerce and service booking platform for CopperBear, a Madurai-based electrical business, using React, Express.js, Node.js, and Google Firestore. The platform must meet the requirements outlined in the GodivaTech project proposal, including a product catalog (1,000+ products), service booking system, secure payments (UPI, cards, COD), mobile-responsive design, and admin dashboard. The application will be hosted on Vercel for the frontend and Railway for the backend, ensuring high performance, security, and scalability, with a branding style inspired by the CopperBear name (copper tones, reliability, strength).
+
+Project Scope
+Key Deliverables:Product catalog with 1,000+ electrical products (switches, wires, tools, etc.) with filtering and search.
+Service booking system with date/time, service type, and location selection, plus SMS/email confirmations.
+Secure online payments via UPI, credit/debit cards, and Cash-on-Delivery (COD).
+Mobile-responsive design optimized for all devices (mobile, tablet, desktop).
+Admin dashboard to manage products, services, orders, and inquiries.
+Timeline: 40 days (Design & Planning: 10 days, Development: 25 days, Launch & Support: 5 days).
+Target Audience: Customers in Madurai seeking electrical products and services (e.g., installation, wiring, repairs).
+Technology Stack:Frontend: React, Tailwind CSS, Vite.
+Backend: Node.js, Express.js.
+Database: Google Firestore (NoSQL, real-time database).
+Integrations: Firebase for authentication and SMS/email notifications, Razorpay for payments.
+Hosting:Frontend: Vercel (static React build, serverless functions if needed).
+Backend: Railway (Node.js/Express.js server, Firestore integration).
+Branding:Brand Name: CopperBear.
+Color Scheme: Copper (#B87333), Deep Gray (#333333), Off-White (#F5F5F5), Accent Blue (#1E90FF) for trust and energy.
+Typography: Primary: Montserrat (modern, clean); Secondary: Roboto (readable, professional).
+Logo Concept: Stylized bear silhouette with copper-colored electrical circuit lines, symbolizing strength and connectivity.
+Tone: Reliable, professional, approachable, emphasizing quality electrical solutions.
+Phased Development Approach
+Split the development into 5 phases to ensure a structured and complete workflow.
+
+Phase 1: Research & Planning (Days 1–5)
+Objective: Define requirements, establish the technical architecture, and plan the UI/UX workflow.
+Tasks:Define Firestore data structure for products, services, orders, users, and bookings.Collections: products, services, orders, users, bookings.
+Subcollections: products/categories, orders/items, bookings/details.
+Create a technical architecture diagram (React, Node.js, Express.js, Firestore, Firebase, Razorpay, Vercel, Railway).
+Plan the UI/UX workflow (see UI/UX Workflow section).
+Set up Firebase project (Firestore, Authentication, Cloud Functions).
+Initialize Vercel and Railway projects for deployment planning.
+Outline product CSV format: Product Name, Category, Brand, SKU, Description, Price, MRP, Discount, Stock Quantity, Image URL, Unit, Warranty, Tax/HSN.
+Define services: Installation, Wiring, Repair; include booking rules (e.g., 2-hour slots, max 5 bookings/day/technician).
+Deliverables:Firestore data structure.
+Technical architecture diagram.
+UI/UX workflow plan.
+Initialized Firebase, Vercel, and Railway projects.
+Sample CSV template for products.
+Phase 2: UI/UX Design (Days 6–10)
+Objective: Design a mobile-optimized, branded interface with unique features.
+Tasks (see UI/UX Workflow section):Create wireframes for key pages: Homepage, Product Catalog, Product Details, Service Booking, Checkout, Admin Dashboard using Figma.
+Design high-fidelity mockups in Figma with CopperBear branding:Colors: Copper (#B87333), Deep Gray (#333333), Off-White (#F5F5F5), Accent Blue (#1E90FF).
+Fonts: Montserrat (headings), Roboto (body).
+Logo: Stylized bear with copper circuit lines.
+Use Tailwind CSS for responsive, mobile-first layouts.
+Incorporate unique features (see Unique Features section).
+Deliverables:Wireframes and high-fidelity mockups (Figma files).
+Style guide (colors, typography, buttons, icons).
+Phase 3: Backend Development (Days 11–20)
+Objective: Build a secure, scalable backend using Node.js, Express.js, and Firestore, optimized for Railway hosting.
+Tasks:Set up Node.js and Express.js server with RESTful APIs:/api/products: CRUD for products (list, filter, search).
+/api/services: List services and booking rules.
+/api/bookings: Create, read, update bookings.
+/api/orders: Create, track, update orders.
+/api/users: Manage user profiles (via Firebase Authentication).
+Configure Firestore with collections and subcollections for real-time updates.
+Implement Firebase Authentication (email, Google, phone).
+Integrate Razorpay for payments (UPI, cards, COD).
+Use Firebase Cloud Functions for SMS/email notifications (via Twilio or Firebase Messaging).
+Apply security best practices (see Development Methods section).
+Test backend locally and prepare for Railway deployment (e.g., environment variables, Dockerfile if needed).
+Deliverables:Functional backend APIs.
+Firestore database with 5–10 sample products.
+Razorpay and Firebase notification integrations.
+Railway deployment configuration (e.g., Procfile, environment variables).
+Phase 4: Frontend Development (Days 21–30)
+Objective: Build a fast, responsive, and SEO-ready frontend using React and Tailwind CSS, optimized for Vercel hosting.
+Tasks:Set up a React project with Vite for fast builds.
+Implement UI components based on Figma mockups, using Tailwind CSS.
+Integrate with backend APIs using Axios and Firebase SDK for Firestore.
+Optimize performance (lazy loading, code splitting, WebP images).
+Ensure SEO readiness (React Helmet, meta tags, dynamic sitemap).
+Test responsiveness across devices (mobile, tablet, desktop).
+Prepare for Vercel deployment (e.g., vercel.json for routing, static build).
+Deliverables:Fully functional frontend (Homepage, Product Catalog, Service Booking, Checkout, Admin Dashboard).
+SEO-optimized structure.
+Vercel deployment configuration.
+Phase 5: Testing, Deployment & Support (Days 31–40)
+Objective: Test the application, deploy on Vercel (frontend) and Railway (backend), and provide admin training.
+Tasks:Perform unit, integration, and end-to-end testing (Jest, React Testing Library, Postman).
+Optimize performance (Lighthouse score >90 for performance, accessibility, SEO).
+Deploy on Vercel and Railway:Frontend (Vercel): Deploy static React build, configure domain, and set up automatic scaling.
+Backend (Railway): Deploy Node.js/Express.js server, connect to Firestore, and configure environment variables (e.g., Firebase credentials, Razorpay keys).
+Set up CI/CD with GitHub Actions for both Vercel and Railway.
+Configure Firestore security rules and indexes.
+Train admins on dashboard usage (product/service management, order tracking).
+Provide 30 days of post-launch support for bug fixes and minor updates.
+Deliverables:Tested and deployed application (Vercel for frontend, Railway for backend).
+Admin training documentation (PDF).
+Post-launch support plan.
+UI/UX Workflow
+Follow this workflow to create a user-friendly, branded interface for CopperBear:
+
+User Research:Target audience: Madurai customers (homeowners, contractors) and business owners.
+Pain points: Complex product search, unclear service booking, slow mobile experiences.
+Wireframing:Create low-fidelity wireframes in Figma for key pages.
+Prioritize intuitive navigation (sticky header, prominent search, clear CTAs like “Book Now” or “Add to Cart”).
+High-Fidelity Mockups:Design with CopperBear branding:Colors: Copper (#B87333) for buttons/accents, Deep Gray (#333333) for headers, Off-White (#F5F5F5) for backgrounds, Accent Blue (#1E90FF) for CTAs.
+Fonts: Montserrat (bold headings), Roboto (body text).
+Imagery: High-quality product photos, electrical-themed icons (e.g., wires, switches).
+Use Tailwind CSS for consistency and rapid prototyping.
+Prototyping:Build interactive Figma prototypes for user flows (product browsing, service booking, checkout).
+Validate with stakeholders (GodivaTech and CopperBear).
+Accessibility:Follow WCAG 2.1 (high-contrast buttons, alt text for images, keyboard navigation).
+Usability Testing:Test with 5–10 users to refine navigation and flows.
+Optimize for mobile-first (80% mobile users in Madurai).
+Unique Features
+CopperBear Smart Suggestions:Use Firestore queries to recommend products based on cart or browsing history (e.g., “Pair these wires with your switches”).
+Live Technician Availability:Real-time calendar for service bookings using Firestore real-time listeners, showing Tradesman showing available slots.
+Tamil-English Toggle:Multi-language support (Tamil/English) with user preference stored in Firestore.
+Voice-Activated Search:Web Speech API for hands-free product search, ideal for mobile users.
+Offline Cart Resilience:Save cart items in localStorage and sync with Firestore when online, ensuring usability in low-connectivity areas.
+Development Methods (Best Practices)
+Ensure an optimized, secure, and maintainable application:
+
+Backend (Node.js, Express.js, Firestore, Railway)
+RESTful API Design:Structure endpoints (e.g., /api/products, /api/bookings) with clear HTTP methods.
+Use JSON responses (e.g., { success: true, data: {...} }).
+Firestore Optimization:Denormalize data for faster reads (e.g., store product details in orders).
+Create indexes for common queries (e.g., product search by category).
+Use batch writes for bulk operations.
+Security:Use Firebase Authentication (email, Google, phone) with JWT.
+Implement Firestore security rules (e.g., allow write: if request.auth.uid != null && request.auth.uid == resource.data.adminId).
+Validate inputs with Joi or express-validator.
+Use Helmet and express-rate-limit.
+Notifications:Use Firebase Cloud Functions with Twilio or Firebase Messaging for SMS/email notifications.
+Railway Optimization:Use Railway’s environment variables for Firebase and Razorpay keys.
+Configure health checks and auto-scaling.
+Error Handling:Implement global error middleware.
+Log errors to Firebase Cloud Logging or Railway logs.
+Frontend (React, Tailwind CSS, Vercel)
+Performance Optimization:Use Vite for fast builds.
+Lazy load components (React.lazy, Suspense).
+Optimize images (WebP, CDN delivery via Vercel).
+Use code splitting.
+State Management:Use Zustand for lightweight state management (cart, user preferences).
+Leverage Firestore real-time listeners for live updates.
+SEO:Use React Helmet for dynamic meta tags.
+Generate dynamic sitemap via Vercel serverless functions.
+Accessibility:Use semantic HTML and ARIA labels.
+Test with screen readers (NVDA, VoiceOver).
+Testing:Write unit tests (Jest, React Testing Library).
+Test API integrations with Postman.
+Vercel Optimization:Use vercel.json for custom routing and caching.
+Leverage Vercel’s automatic scaling and CDN.
+Set up error tracking with Sentry or Firebase Crashlytics.
+Folder Structure
+A modular folder structure for maintainability:
+
+/copperbear-ecommerce
+├── /client (React Frontend for Vercel)
+│ ├── /public
+│ │ ├── favicon.ico
+│ │ └── index.html
+│ ├── /src
+│ │ ├── /assets (Images, fonts, logo)
+│ │ ├── /components (ProductCard, BookingForm, Header, Footer)
+│ │ ├── /pages (Home, ProductList, ProductDetails, Booking, Checkout, AdminDashboard)
+│ │ ├── /hooks (useFirestore, useAuth, useCart)
+│ │ ├── /context (CartContext, UserContext)
+│ │ ├── /utils (formatPrice, debounceSearch, voiceSearch)
+│ │ ├── /styles (Tailwind config, global.css)
+│ │ ├── /services (API calls, Firebase SDK)
+│ │ ├── App.jsx
+│ │ ├── main.jsx
+│ │ └── routes.js (React Router)
+│ ├── vercel.json (Vercel configuration)
+│ └── package.json
+├── /server (Node.js/Express Backend for Railway)
+│ ├── /controllers (productController, bookingController, orderController)
+│ ├── /routes (products,ings, orders, users)
+│ ├── /middleware (auth, errorHandler, rateLimit)
+│ ├── /services (firestoreService, razorpayService, notificationService)
+│ ├── /utils (sendNotification, validateInput)
+│ ├── /config (firebaseConfig, env)
+│ ├── index.js
+│ ├── Procfile (Railway deployment)
+│ └── package.json
+├── /functions (Firebase Cloud Functions)
+│ ├── /notifications (orderConfirmation, bookingConfirmation)
+│ └── index.js
+├── /docs
+│ ├── api.md (API documentation)
+│ └── setup.md (Deployment guide)
+├── .env
+├── .gitignore
+├── README.md
+└── package.json (Monorepo setup)
+
+Additional Notes
+Client Requirements:Request logo in PNG/SVG, confirm color scheme (#B87333, #333333, #F5F5F5, #1E90FF).
+Collect product CSV (Name, Category, Brand, SKU, Description, Price, MRP, Discount, Stock, Image URL, Unit, Warranty, Tax/HSN).
+Confirm services (Installation, Wiring, Repair) and booking rules.
+Gather content: About Us, contact details, policies, social media handles.
+Firestore Cost Management:Optimize reads/writes (e.g., cache product data, batch updates).
+Monitor usage via Firebase Console.
+Vercel & Railway Compatibility:Vercel: Ensure static build optimization and proper vercel.json configuration.
+Railway: Verify Node.js support (v16+), set up environment variables, and configure scaling.
+Support Plan:Provide admin training documentation (PDF).
+Offer 30-day support for bug fixes and updates.
+Deliverables Checklist
+Figma wireframes and mockups (CopperBear branding).
+Firestore database with sample data (5–10 products).
+Functional backend APIs (Node.js, Express.js on Railway).
+Responsive React frontend (Tailwind CSS on Vercel).
+Integrated Razorpay and Firebase notifications.
+Deployed application (Vercel for frontend, Railway for backend).
+Admin training documentation.
+30-day post-launch support plan.
+This prompt ensures the AI agent delivers a high-quality, branded, and feature-rich platform for CopperBear within 40 days, leveraging Vercel and Railway for optimal deployment, performance, and scalability.

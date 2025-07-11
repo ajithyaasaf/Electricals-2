@@ -1,0 +1,324 @@
+/* Import Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(0, 0%, 20%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(0, 0%, 20%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(0, 0%, 20%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(0, 0%, 96%);
+  --secondary-foreground: hsl(0, 0%, 10%);
+  --muted: hsl(0, 0%, 96%);
+  --muted-foreground: hsl(0, 0%, 45%);
+  --accent: hsl(0, 0%, 96%);
+  --accent-foreground: hsl(0, 0%, 10%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(0, 0%, 90%);
+  --input: hsl(0, 0%, 90%);
+  --ring: hsl(0, 0%, 20%);
+  --chart-1: hsl(12, 76%, 61%);
+  --chart-2: hsl(173, 58%, 39%);
+  --chart-3: hsl(197, 37%, 24%);
+  --chart-4: hsl(43, 74%, 66%);
+  --chart-5: hsl(27, 87%, 67%);
+  --radius: 0.5rem;
+  
+  /* CopperBear Brand Colors */
+  --copper: hsl(30, 50%, 46%);
+  --copper-dark: hsl(30, 60%, 38%);
+  --deep-gray: hsl(0, 0%, 20%);
+  --off-white: hsl(0, 0%, 96%);
+  --accent-blue: hsl(207, 90%, 54%);
+  --accent-blue-dark: hsl(207, 90%, 44%);
+}
+
+.dark {
+  --background: hsl(0, 0%, 4%);
+  --foreground: hsl(0, 0%, 98%);
+  --card: hsl(0, 0%, 4%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover: hsl(0, 0%, 4%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(0, 0%, 15%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --muted: hsl(0, 0%, 15%);
+  --muted-foreground: hsl(0, 0%, 65%);
+  --accent: hsl(0, 0%, 15%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 63%, 31%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(0, 0%, 15%);
+  --input: hsl(0, 0%, 15%);
+  --ring: hsl(0, 0%, 83%);
+  --chart-1: hsl(12, 76%, 61%);
+  --chart-2: hsl(173, 58%, 39%);
+  --chart-3: hsl(197, 37%, 24%);
+  --chart-4: hsl(43, 74%, 66%);
+  --chart-5: hsl(27, 87%, 67%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+  }
+}
+
+@layer utilities {
+  /* CopperBear Brand Colors */
+  .text-copper {
+    color: var(--copper);
+  }
+  
+  .text-copper-dark {
+    color: var(--copper-dark);
+  }
+  
+  .text-deep-gray {
+    color: var(--deep-gray);
+  }
+  
+  .text-off-white {
+    color: var(--off-white);
+  }
+  
+  .text-accent-blue {
+    color: var(--accent-blue);
+  }
+  
+  .text-accent-blue-dark {
+    color: var(--accent-blue-dark);
+  }
+  
+  .bg-copper {
+    background-color: var(--copper);
+  }
+  
+  .bg-copper-dark {
+    background-color: var(--copper-dark);
+  }
+  
+  .bg-deep-gray {
+    background-color: var(--deep-gray);
+  }
+  
+  .bg-off-white {
+    background-color: var(--off-white);
+  }
+  
+  .bg-accent-blue {
+    background-color: var(--accent-blue);
+  }
+  
+  .bg-accent-blue-dark {
+    background-color: var(--accent-blue-dark);
+  }
+  
+  .border-copper {
+    border-color: var(--copper);
+  }
+  
+  .border-copper-dark {
+    border-color: var(--copper-dark);
+  }
+  
+  .border-deep-gray {
+    border-color: var(--deep-gray);
+  }
+  
+  .border-accent-blue {
+    border-color: var(--accent-blue);
+  }
+  
+  .hover\:bg-copper:hover {
+    background-color: var(--copper);
+  }
+  
+  .hover\:bg-copper-dark:hover {
+    background-color: var(--copper-dark);
+  }
+  
+  .hover\:bg-accent-blue:hover {
+    background-color: var(--accent-blue);
+  }
+  
+  .hover\:bg-accent-blue-dark:hover {
+    background-color: var(--accent-blue-dark);
+  }
+  
+  .hover\:text-copper:hover {
+    color: var(--copper);
+  }
+  
+  .hover\:text-copper-dark:hover {
+    color: var(--copper-dark);
+  }
+  
+  .hover\:text-accent-blue:hover {
+    color: var(--accent-blue);
+  }
+  
+  .hover\:text-accent-blue-dark:hover {
+    color: var(--accent-blue-dark);
+  }
+  
+  .focus\:ring-copper:focus {
+    --tw-ring-color: var(--copper);
+  }
+  
+  .focus\:ring-accent-blue:focus {
+    --tw-ring-color: var(--accent-blue);
+  }
+  
+  .focus\:border-copper:focus {
+    border-color: var(--copper);
+  }
+  
+  .focus\:border-accent-blue:focus {
+    border-color: var(--accent-blue);
+  }
+
+  /* Font families */
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .font-roboto {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  /* Custom gradients */
+  .hero-gradient {
+    background: linear-gradient(135deg, var(--copper) 0%, var(--copper-dark) 100%);
+  }
+
+  /* Transition utilities */
+  .transition-smooth {
+    transition: all 0.3s ease;
+  }
+
+  /* Custom animations */
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .service-card:hover {
+    transform: scale(1.02);
+  }
+
+  /* Text utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(0, 0%, 95%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--copper);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--copper-dark);
+}
+
+/* Loading states */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+/* Custom button styles */
+.btn-copper {
+  @apply bg-copper hover:bg-copper-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors;
+}
+
+.btn-accent-blue {
+  @apply bg-accent-blue hover:bg-accent-blue-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+}
+
+/* Focus states */
+.focus-copper:focus {
+  @apply ring-2 ring-offset-2 border-copper;
+  --tw-ring-color: var(--copper);
+}
+
+.focus-accent-blue:focus {
+  @apply ring-2 ring-offset-2 border-accent-blue;
+  --tw-ring-color: var(--accent-blue);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .mobile-hide {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

@@ -9,8 +9,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Search, Filter } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import VoiceSearch from "@/components/VoiceSearch";
 
 export default function Products() {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [priceRange, setPriceRange] = useState<string>("all");
@@ -58,7 +61,7 @@ export default function Products() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="font-montserrat font-bold text-3xl text-deep-gray mb-4">
-            All Products
+            {t('products.title')}
           </h1>
           
           {/* Search Bar */}
@@ -67,15 +70,21 @@ export default function Products() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
                 type="text"
-                placeholder="Search products..."
+                placeholder={t('search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 focus:ring-2 focus:ring-copper focus:border-transparent"
               />
             </div>
-            <Button type="submit" className="bg-copper hover:bg-copper-dark text-white">
-              Search
-            </Button>
+            <div className="flex space-x-2">
+              <VoiceSearch 
+                onResult={setSearchQuery} 
+                className="bg-copper hover:bg-copper-dark text-white"
+              />
+              <Button type="submit" className="bg-copper hover:bg-copper-dark text-white">
+                {t('common.search')}
+              </Button>
+            </div>
           </form>
         </div>
 
@@ -87,21 +96,21 @@ export default function Products() {
                 <div className="flex items-center gap-2 mb-4">
                   <Filter className="w-4 h-4" />
                   <h3 className="font-montserrat font-semibold text-lg text-deep-gray">
-                    Filters
+                    {t('products.filters')}
                   </h3>
                 </div>
                 
                 {/* Category Filter */}
                 <div className="mb-6">
                   <Label className="font-semibold text-gray-700 mb-3 block">
-                    Category
+                    {t('products.category')}
                   </Label>
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                     <SelectTrigger className="focus:ring-2 focus:ring-copper">
-                      <SelectValue placeholder="All Categories" />
+                      <SelectValue placeholder={t('products.allCategories')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Categories</SelectItem>
+                      <SelectItem value="all">{t('products.allCategories')}</SelectItem>
                       {categories?.data?.map((category) => (
                         <SelectItem key={category.id} value={category.id.toString()}>
                           {category.name}
@@ -114,18 +123,18 @@ export default function Products() {
                 {/* Price Range */}
                 <div className="mb-6">
                   <Label className="font-semibold text-gray-700 mb-3 block">
-                    Price Range
+                    {t('products.priceRange')}
                   </Label>
                   <Select value={priceRange} onValueChange={setPriceRange}>
                     <SelectTrigger className="focus:ring-2 focus:ring-copper">
-                      <SelectValue placeholder="All Prices" />
+                      <SelectValue placeholder={t('products.allPrices')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Prices</SelectItem>
-                      <SelectItem value="under-500">Under ₹500</SelectItem>
-                      <SelectItem value="500-1000">₹500 - ₹1,000</SelectItem>
-                      <SelectItem value="1000-5000">₹1,000 - ₹5,000</SelectItem>
-                      <SelectItem value="above-5000">Above ₹5,000</SelectItem>
+                      <SelectItem value="all">{t('products.allPrices')}</SelectItem>
+                      <SelectItem value="under-500">{t('products.under500')}</SelectItem>
+                      <SelectItem value="500-1000">{t('products.500to1000')}</SelectItem>
+                      <SelectItem value="1000-5000">{t('products.1000to5000')}</SelectItem>
+                      <SelectItem value="above-5000">{t('products.above5000')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -133,7 +142,7 @@ export default function Products() {
                 {/* Brand Filter */}
                 <div className="mb-6">
                   <Label className="font-semibold text-gray-700 mb-3 block">
-                    Brand
+                    {t('products.brand')}
                   </Label>
                   <div className="space-y-2">
                     {["Havells", "Anchor", "Legrand", "Schneider", "Philips"].map((brand) => (
@@ -154,17 +163,17 @@ export default function Products() {
           <div className="lg:w-3/4">
             <div className="flex justify-between items-center mb-6">
               <div className="text-gray-600">
-                {sortedProducts.length} products found
+                {sortedProducts.length} {t('products.found')}
               </div>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48 focus:ring-2 focus:ring-copper">
-                  <SelectValue placeholder="Sort by" />
+                  <SelectValue placeholder={t('products.sortBy')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="featured">Featured</SelectItem>
-                  <SelectItem value="price-low">Price: Low to High</SelectItem>
-                  <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  <SelectItem value="name">Name A-Z</SelectItem>
+                  <SelectItem value="featured">{t('products.featured')}</SelectItem>
+                  <SelectItem value="price-low">{t('products.priceLowHigh')}</SelectItem>
+                  <SelectItem value="price-high">{t('products.priceHighLow')}</SelectItem>
+                  <SelectItem value="name">{t('products.nameAZ')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

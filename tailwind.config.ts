@@ -61,6 +61,21 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        // CopperBear Brand Colors
+        copper: {
+          DEFAULT: "var(--copper)",
+          dark: "var(--copper-dark)",
+        },
+        "deep-gray": "var(--deep-gray)",
+        "off-white": "var(--off-white)",
+        "accent-blue": {
+          DEFAULT: "var(--accent-blue)",
+          dark: "var(--accent-blue-dark)",
+        },
+      },
+      fontFamily: {
+        'montserrat': ['Montserrat', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {

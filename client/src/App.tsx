@@ -5,12 +5,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartSidebar from "@/components/CartSidebar";
 import Home from "@/pages/Home";
 import Products from "@/pages/Products";
 import Services from "@/pages/Services";
+import About from "@/pages/About";
+import Contact from "@/pages/Contact";
 import Login from "@/pages/Login";
 import Profile from "@/pages/Profile";
 import Admin from "@/pages/Admin";
@@ -25,6 +28,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/products" component={Products} />
       <Route path="/services" component={Services} />
+      <Route path="/about" component={About} />
+      <Route path="/contact" component={Contact} />
       <Route path="/login" component={Login} />
       <Route path="/profile" component={Profile} />
       <Route path="/admin" component={Admin} />
@@ -38,7 +43,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <CartProvider>
+          <LanguageProvider>
+            <CartProvider>
             <div className="min-h-screen bg-off-white">
               <Header />
               <main>
@@ -48,7 +54,8 @@ function App() {
               <CartSidebar />
             </div>
             <Toaster />
-          </CartProvider>
+            </CartProvider>
+          </LanguageProvider>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

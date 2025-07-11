@@ -4,12 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import VoiceSearch from "@/components/VoiceSearch";
+import LanguageToggle from "@/components/LanguageToggle";
 import { useState } from "react";
 
 export default function Header() {
   const [location] = useLocation();
   const { user } = useAuth();
   const { getTotalItems, setIsOpen } = useCart();
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -40,38 +44,45 @@ export default function Header() {
               <Input
                 type="text"
                 className="w-full pr-12 rounded-full border-gray-300 focus:ring-2 focus:ring-copper focus:border-transparent"
-                placeholder="Search electrical products..."
+                placeholder={t('search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button
-                type="submit"
-                size="sm"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-copper hover:bg-copper-dark text-white rounded-full px-4"
-              >
-                <Search className="w-4 h-4" />
-              </Button>
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex space-x-1">
+                <VoiceSearch 
+                  onResult={setSearchQuery} 
+                  className="bg-copper hover:bg-copper-dark text-white rounded-full px-3"
+                />
+                <Button
+                  type="submit"
+                  size="sm"
+                  className="bg-copper hover:bg-copper-dark text-white rounded-full px-4"
+                >
+                  <Search className="w-4 h-4" />
+                </Button>
+              </div>
             </form>
           </div>
 
           {/* Navigation */}
           <nav className="hidden lg:flex space-x-8">
             <Link href="/products" className={`text-deep-gray hover:text-copper transition-colors font-medium ${location === '/products' ? 'text-copper' : ''}`}>
-              Products
+              {t('nav.products')}
             </Link>
             <Link href="/services" className={`text-deep-gray hover:text-copper transition-colors font-medium ${location === '/services' ? 'text-copper' : ''}`}>
-              Services
+              {t('nav.services')}
             </Link>
             <Link href="/about" className={`text-deep-gray hover:text-copper transition-colors font-medium ${location === '/about' ? 'text-copper' : ''}`}>
-              About
+              {t('nav.about')}
             </Link>
             <Link href="/contact" className={`text-deep-gray hover:text-copper transition-colors font-medium ${location === '/contact' ? 'text-copper' : ''}`}>
-              Contact
+              {t('nav.contact')}
             </Link>
           </nav>
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
+            <LanguageToggle />
             <Link href={user ? "/profile" : "/login"}>
               <Button variant="ghost" size="sm" className="text-deep-gray hover:text-copper">
                 <User className="w-5 h-5" />

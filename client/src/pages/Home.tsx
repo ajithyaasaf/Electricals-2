@@ -1,88 +1,192 @@
-import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import { Product, Service, Category } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { Product, Category, Service } from "@shared/schema";
-import ProductCard from "@/components/ProductCard";
-import ServiceCard from "@/components/ServiceCard";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
+import { ShoppingCart, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useState } from "react";
 
 export default function Home() {
-  const { data: categories } = useQuery<{ success: boolean; data: Category[] }>({
-    queryKey: ["/api/categories"],
+  const { t } = useLanguage();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const { data: products } = useQuery<{ data: Product[] }>({
+    queryKey: ['/api/products'],
+    queryFn: () => fetch('/api/products').then(res => res.json()),
   });
 
-  const { data: featuredProducts } = useQuery<{ success: boolean; data: Product[] }>({
-    queryKey: ["/api/products", { limit: 4 }],
+  const { data: services } = useQuery<{ data: Service[] }>({
+    queryKey: ['/api/services'],
+    queryFn: () => fetch('/api/services').then(res => res.json()),
   });
 
-  const { data: services } = useQuery<{ success: boolean; data: Service[] }>({
-    queryKey: ["/api/services"],
+  const { data: categories } = useQuery<{ data: Category[] }>({
+    queryKey: ['/api/categories'],
+    queryFn: () => fetch('/api/categories').then(res => res.json()),
   });
+
+  const featuredProducts = products?.data?.slice(0, 10) || [];
+  const bestDeals = products?.data?.slice(0, 7) || [];
+  const topCategories = categories?.data?.slice(0, 10) || [];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % 3);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + 3) % 3);
+  };
 
   return (
-    <div className="min-h-screen bg-off-white">
-      {/* Hero Section */}
-      <section className="hero-gradient py-20 text-white">
+    <div className="min-h-screen bg-white">
+      {/* Top Product Categories Bar */}
+      <section className="bg-white py-6 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="font-montserrat font-bold text-4xl lg:text-6xl mb-6">
-                Professional Electrical Solutions
-              </h1>
-              <p className="text-xl mb-8 opacity-90">
-                Quality electrical products and expert installation services for homes and businesses in Madurai
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/products">
-                  <Button className="bg-accent-blue hover:bg-accent-blue-dark text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-                    Shop Products
-                  </Button>
-                </Link>
-                <Link href="/services">
-                  <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-copper px-8 py-3 rounded-lg font-semibold transition-colors">
-                    Book Service
-                  </Button>
-                </Link>
+          <div className="flex justify-between items-center overflow-x-auto gap-4 pb-2">
+            {topCategories.map((category, index) => (
+              <Link key={category.id} href={`/products?category=${category.id}`}>
+                <div className="flex-shrink-0 text-center cursor-pointer group min-w-[100px]">
+                  <div className="w-20 h-20 bg-gray-100 rounded-lg mb-2 flex items-center justify-center group-hover:bg-copper/10 transition-colors">
+                    <img 
+                      src={category.imageUrl || `https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=80&h=80&fit=crop&crop=center`}
+                      alt={category.name}
+                      className="w-12 h-12 object-cover rounded"
+                    />
+                  </div>
+                  <h3 className="text-xs font-medium text-gray-800 group-hover:text-copper transition-colors">
+                    {category.name}
+                  </h3>
+                  <Badge variant="secondary" className="text-xs bg-red-100 text-red-700 mt-1">
+                    {Math.floor(Math.random() * 50) + 20}% OFF*
+                  </Badge>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hero Banner Slider */}
+      <section className="relative bg-gradient-to-r from-orange-500 to-red-600 text-white">
+        <div className="relative h-80 overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-between px-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={prevSlide}
+              className="text-white hover:bg-white/20 z-10"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={nextSlide}
+              className="text-white hover:bg-white/20 z-10"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </Button>
+          </div>
+          
+          <div className="flex h-full">
+            <div className="w-full flex items-center">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                  <div className="inline-block bg-orange-600 text-white px-4 py-2 rounded-lg mb-4">
+                    <span className="font-bold">Grab the Deal</span>
+                  </div>
+                  <h1 className="text-4xl lg:text-5xl font-bold mb-4">
+                    Up to 70% Off*
+                  </h1>
+                  <p className="text-2xl mb-6">
+                    On Electrical Products
+                  </p>
+                  <p className="text-lg mb-6">
+                    Claim GST Benefits on <em>Business Purchase</em>
+                  </p>
+                  <div className="flex gap-4">
+                    <Button className="bg-green-600 hover:bg-green-700 text-white">
+                      🚚 Free Delivery on above ₹500*
+                    </Button>
+                  </div>
+                </div>
+                <div className="hidden lg:block">
+                  <img 
+                    src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop"
+                    alt="Electrical Products"
+                    className="w-full h-auto rounded-lg"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="hidden lg:block">
-              <img 
-                src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=600&fit=crop" 
-                alt="Professional electrical workshop" 
-                className="rounded-xl shadow-2xl"
-              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Categories */}
-      <section className="py-16 bg-white">
+      {/* Best Deals Section */}
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="font-montserrat font-bold text-3xl lg:text-4xl text-deep-gray mb-4">
-              Shop by Category
-            </h2>
-            <p className="text-gray-600 text-lg">
-              Discover our comprehensive range of electrical products
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {categories?.data?.map((category) => (
-              <Link key={category.id} href={`/products?category=${category.id}`}>
-                <Card className="group cursor-pointer hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+            Best Deals
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6">
+            {bestDeals.map((product) => (
+              <Card key={product.id} className="group hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className="relative">
+                    <Badge className="absolute top-2 left-2 bg-blue-600 text-white text-xs">
+                      {product.discount}% Off
+                    </Badge>
                     <img 
-                      src={category.imageUrl || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop"} 
-                      alt={category.name}
-                      className="w-full h-40 object-cover rounded-lg mb-4"
+                      src={product.imageUrl || "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=200&h=150&fit=crop"}
+                      alt={product.name}
+                      className="w-full h-32 object-cover rounded-lg mb-3"
                     />
-                    <h3 className="font-montserrat font-semibold text-xl text-deep-gray mb-2">
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <img 
+                      src={`https://logo.clearbit.com/${product.brand.toLowerCase()}.com`}
+                      alt={product.brand}
+                      className="w-6 h-6 object-contain"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                    <span className="text-xs font-medium text-gray-600">
+                      {product.brand.toUpperCase()}
+                    </span>
+                  </div>
+                  <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors">
+                    {product.name}
+                  </h3>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Shop by Categories */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+            Shop by Categories
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {topCategories.slice(0, 10).map((category) => (
+              <Link key={category.id} href={`/products?category=${category.id}`}>
+                <Card className="group hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="p-4 text-center">
+                    <img 
+                      src={category.imageUrl || "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=150&h=120&fit=crop"}
+                      alt={category.name}
+                      className="w-full h-24 object-cover rounded-lg mb-3"
+                    />
+                    <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors">
                       {category.name}
                     </h3>
-                    <p className="text-gray-600 mb-2">{category.description}</p>
-                    <span className="text-copper font-semibold">View Products</span>
                   </CardContent>
                 </Card>
               </Link>
@@ -91,50 +195,74 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-16 bg-off-white">
+      {/* Professional Services - Exclusive Deals */}
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="font-montserrat font-bold text-3xl lg:text-4xl text-deep-gray mb-4">
-              Featured Products
-            </h2>
-            <p className="text-gray-600 text-lg">
-              Our best-selling electrical products
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProducts?.data?.map((product) => (
-              <ProductCard key={product.id} product={product} />
+          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+            Professional Services - Exclusive Deals
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services?.data?.map((service) => (
+              <Card key={service.id} className="group hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className="relative">
+                    <Badge className="absolute top-2 left-2 bg-green-600 text-white text-xs">
+                      Best Price
+                    </Badge>
+                    <img 
+                      src={service.imageUrl || "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=200&h=150&fit=crop"}
+                      alt={service.name}
+                      className="w-full h-32 object-cover rounded-lg mb-3"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-medium text-orange-600">
+                      COPPERBEAR
+                    </span>
+                  </div>
+                  <h3 className="font-medium text-sm text-gray-900 group-hover:text-copper transition-colors mb-2">
+                    {service.name}
+                  </h3>
+                  <p className="text-xs text-gray-600 mb-3">
+                    {service.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-bold text-gray-900">
+                      ₹{service.price}
+                    </span>
+                    <Button size="sm" className="bg-copper hover:bg-copper-dark">
+                      Book Now
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link href="/products">
-              <Button className="bg-copper hover:bg-copper-dark text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-                View All Products
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="font-montserrat font-bold text-3xl lg:text-4xl text-deep-gray mb-4">
-              Our Services
-            </h2>
-            <p className="text-gray-600 text-lg">
-              Professional electrical services by certified technicians
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services?.data?.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
+      {/* CTA Section */}
+      <section className="py-16 bg-copper text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-6">
+            Ready to Get Started?
+          </h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Explore our complete range of electrical products and professional services
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/products">
+              <Button size="lg" className="bg-white text-copper hover:bg-gray-100">
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                Shop Products
+              </Button>
+            </Link>
+            <Link href="/services">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-copper">
+                <ArrowRight className="mr-2 h-5 w-5" />
+                View Services
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

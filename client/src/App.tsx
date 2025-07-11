@@ -22,6 +22,8 @@ import Categories from "@/pages/Categories";
 import Wholesale from "@/pages/Wholesale";
 import NotFound from "@/pages/not-found";
 import FirestoreTestPage from "@/pages/FirestoreTestPage";
+import Checkout from "@/pages/Checkout";
+import OrderConfirmation from "@/pages/OrderConfirmation";
 
 // Font Awesome CSS
 import "@/lib/fontawesome";
@@ -40,6 +42,8 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/profile" component={Profile} />
       <Route path="/admin" component={Admin} />
+      <Route path="/checkout" component={Checkout} />
+      <Route path="/order-confirmation" component={OrderConfirmation} />
       <Route path="/firestore-test" component={FirestoreTestPage} />
       <Route component={NotFound} />
     </Switch>
